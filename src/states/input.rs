@@ -7,9 +7,7 @@ impl Input {
         SanitizedInput(
             self.0
                 .trim()
-                .replace(" ", "")
-                .replace("\t", "")
-                .replace("\n", "")
+                .replace([' ', '\t', '\n'], "")
                 .replace("()", "")
                 .replace("+-", "-")
                 .replace("--", "+"),

@@ -28,11 +28,7 @@ impl Op {
     }
 }
 
-pub fn perform_operation(
-    left: f32,
-    operation: &Op,
-    right: f32,
-) -> f32 {
+pub fn perform_operation(left: f32, operation: &Op, right: f32) -> f32 {
     match operation {
         Op::Add => left + right,
         Op::Sub => left - right,

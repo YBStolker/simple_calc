@@ -1,5 +1,7 @@
-
-use crate::{token::{Token, Op}, regex::{float_re, operation_re}};
+use crate::{
+    regex::{float_re, operation_re},
+    token::{Op, Token},
+};
 
 use super::tokens::Tokens;
 
@@ -72,12 +74,12 @@ impl ValidatedInput {
     }
 
     fn validate_tokens(tokens: &Vec<Token>) -> Result<(), String> {
-        if tokens.len() <= 0 {
-            return Err(format!("No tokens to validate."));
+        if tokens.is_empty() {
+            return Err("No tokens to validate.".to_string());
         }
 
         if let Token::Close = tokens.get(0).expect("tokens.len() must be larger than 0.") {
-            return Err(format!("Cannot start with closing parenthesis."));
+            return Err("Cannot start with closing parenthesis.".to_string());
         }
 
         if let Token::Operation(op) = tokens.get(0).expect("tokens.len() must be larger than 0.") {
@@ -85,7 +87,7 @@ impl ValidatedInput {
         }
 
         if let Token::Open = tokens.last().expect("tokens.len() must be larger than 0.") {
-            return Err(format!("Cannot end with opening parenthesis."));
+            return Err("Cannot end with opening parenthesis.".to_string());
         }
 
         if let Token::Operation(op) = tokens.last().expect("tokens.len() must be larger than 0.") {
@@ -127,9 +129,9 @@ impl ValidatedInput {
                 }
 
                 if let Token::Close = next_token {
-                    return Err(format!(
-                        "Open parenthesis cannot be followed by a closing parenthesis."
-                    ));
+                    return Err(
+                        "Open parenthesis cannot be followed by a closing parenthesis".to_string(),
+                    );
                 }
             } else if let Token::Close = token {
                 if let Token::Number(next_num) = next_token {
@@ -140,9 +142,10 @@ impl ValidatedInput {
                 }
 
                 if let Token::Open = next_token {
-                    return Err(format!(
+                    return Err(
                         "Closing parenthesis cannot be followed by an opening parenthesis."
-                    ));
+                            .to_string(),
+                    );
                 }
             } else {
                 unreachable!("Not all Token variants have been matched.")

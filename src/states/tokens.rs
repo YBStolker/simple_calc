@@ -1,6 +1,4 @@
-use crate::token::{Token, perform_operation, Op};
-
-
+use crate::token::{perform_operation, Op, Token};
 
 pub struct Tokens(pub Vec<Token>);
 
@@ -98,20 +96,20 @@ impl Tokens {
     fn remove_redundant_parentheses(&mut self) {
         while has_redundant_parentheses(&self.0) {
             let mut to_remove: Vec<usize> = vec![];
-    
+
             for (i, token) in self.0.iter().enumerate() {
                 let Token::Open = token else {
                     continue;
                 };
-    
+
                 let Token::Close = self.0[i + 2] else {
                     continue;
                 };
-    
+
                 to_remove.push(i);
                 to_remove.push(i + 2);
             }
-    
+
             to_remove.reverse();
             for i in to_remove {
                 self.0.remove(i);
@@ -134,17 +132,15 @@ fn prioritize_next_operation(cur: &Op, next: &Op) -> bool {
     }
 }
 
-fn has_redundant_parentheses(tokens: &Vec<Token>) -> bool {
+fn has_redundant_parentheses(tokens: &[Token]) -> bool {
     for (i, token) in tokens.iter().enumerate() {
         let Token::Open = token else {
             continue;
         };
 
-        let Token::Close = tokens[i + 2] else {
-            continue;
+        if let Token::Close = tokens[i + 2] {
+            return true;
         };
-
-        return true;
     }
     false
 }

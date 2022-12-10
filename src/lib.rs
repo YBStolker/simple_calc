@@ -1,5 +1,5 @@
-mod states;
 mod regex;
+mod states;
 mod token;
 
 use crate::states::input::Input;
@@ -62,4 +62,3 @@ mod tests {
         assert_eq!(eval("-0.1*2"), Ok(-0.2_f32));
     }
 }
-
